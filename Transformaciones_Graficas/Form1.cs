@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
+using Transformaciones_Graficas.ClasesDibujo;
 
 namespace Transformaciones_Graficas
 {
@@ -54,11 +55,11 @@ namespace Transformaciones_Graficas
                     break;
 
                 case EstadoHerramienta.DibujandoCirculo:
-                    DibujarCirculo(trazo);
+                    DibujarCirculo(new Elipse(orginPoint, endPoint));
                     break;
 
                 case EstadoHerramienta.DibujandoRectangulo:
-                    DibujarRectangulo(trazo);
+                    DibujarRectangulo(new Rectangulo(orginPoint, endPoint));
                     break;
             }
         }
@@ -82,7 +83,6 @@ namespace Transformaciones_Graficas
                 pnlMenuDer.Size = new Size(33, pnlMenuDer.Size.Height);
                 icnPctShHi2.IconChar = IconChar.AngleDoubleLeft;
             }
-
         }
 
         private void DibujarRectangulo(Pen contorno, Brush relleno, Point A, Point B)
@@ -92,22 +92,22 @@ namespace Transformaciones_Graficas
             canva.DrawRectangle(contorno, fig);
         }
 
-        private void DibujarCirculo(Figura circuloFigura)
+        private void DibujarCirculo(Elipse figura)
         {
-            Rectangle fig = new Rectangle(circuloFigura.X1, circuloFigura.Y1, (circuloFigura.X2 - circuloFigura.X1), (circuloFigura.Y2 - circuloFigura.Y1));
-            canva.FillEllipse(circuloFigura.relleno, fig);
-            canva.DrawEllipse(circuloFigura.contorno, fig);
+            Rectangle fig = new Rectangle(figura.OriginPoint.X, figura.OriginPoint.Y, figura.FigSize.Width, figura.FigSize.Height);
+            canva.FillEllipse(figura.FillBrush, fig);
+            canva.DrawEllipse(figura.ContourPen, fig);
         }
         
-        private void DibujarRectangulo(Figura circuloFigura)
+        private void DibujarRectangulo(Rectangulo rectangulo)
         {
-            Rectangle fig = new Rectangle(circuloFigura.X1, circuloFigura.Y1, (circuloFigura.X2 - circuloFigura.X1), (circuloFigura.Y2 - circuloFigura.Y1));
-            canva.FillRectangle(circuloFigura.relleno, fig);
-            canva.DrawRectangle(circuloFigura.contorno, fig);
+            Rectangle fig = new Rectangle(rectangulo.OriginPoint.X, rectangulo.OriginPoint.Y, rectangulo.FigSize.Width, rectangulo.FigSize.Height);
+            canva.FillRectangle(rectangulo.FillBrush, fig);
+            canva.DrawRectangle(rectangulo.ContourPen, fig);
         }
 
-        private int x1, y1;
-        private int x2, y2;
+        private Point orginPoint;
+        private Point endPoint;
 
         private void pnlFondo_MouseUp(object sender, MouseEventArgs e)
         {
@@ -124,9 +124,8 @@ namespace Transformaciones_Graficas
             else
             {
                 canva.Clear(Color.White);
-                x2 = pnlFondo.PointToClient(Cursor.Position).X;
-                y2 = pnlFondo.PointToClient(Cursor.Position).Y;
-                Figura fig = new Figura(new Point(x1,y1),new Point(x2,y2), new Pen(Color.Black,1), new SolidBrush(Color.White));
+                endPoint = GetMousePostion();
+                Figura fig = new Figura(orginPoint,endPoint, new Pen(Color.Black,1), new SolidBrush(Color.White));
                 Dibujar(fig);
             }
         }
@@ -146,10 +145,14 @@ namespace Transformaciones_Graficas
             estado = EstadoHerramienta.DibujandoRectangulo;
         }
 
+        private Point GetMousePostion()
+        {
+            return PointToClient(Cursor.Position);
+        }
+
         private void pnlFondo_MouseDown(object sender, MouseEventArgs e)
         {
-            x1 = pnlFondo.PointToClient(Cursor.Position).X; 
-            y1 = pnlFondo.PointToClient(Cursor.Position).Y;
+            orginPoint = GetMousePostion();
             pres = true;
         }
 
