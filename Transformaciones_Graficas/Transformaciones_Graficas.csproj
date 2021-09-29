@@ -49,16 +49,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClasesDibujo\Elipse.cs" />
-    <Compile Include="ClasesDibujo\Figura.cs" />
-    <Compile Include="ClasesDibujo\Rectangulo.cs" />
+    <Compile Include="ClasesDibujo\Dibujado.cs" />
+    <Compile Include="ClasesFiguras\Elipse.cs" />
+    <Compile Include="ClasesFiguras\Figura.cs" />
+    <Compile Include="ClasesFiguras\Rectangulo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="ClasesDibujo\Poligono.cs" />
+    <Compile Include="ClasesFiguras\Poligono.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -19,7 +19,8 @@ namespace Transformaciones_Graficas
         Mover,
         Rotar,
         DibujandoCirculo,
-        DibujandoRectangulo
+        DibujandoRectangulo,
+        DibPoligono
     }
 
     public partial class Form1 : Form
@@ -56,6 +57,13 @@ namespace Transformaciones_Graficas
 
                 case EstadoHerramienta.DibujandoCirculo:
                     DibujarCirculo(new Elipse(orginPoint, endPoint));
+                    break;
+
+                case EstadoHerramienta.DibPoligono:
+                    Dibujado dibujo = new Dibujado(canva);
+                    Poligono obj = new Poligono(orginPoint, endPoint, 4);
+                    Dibujado.DrawStar(canva, obj);
+                    DibujarRectangulo(new Rectangulo(orginPoint, endPoint));
                     break;
 
                 case EstadoHerramienta.DibujandoRectangulo:
@@ -159,6 +167,37 @@ namespace Transformaciones_Graficas
         private void Form1_Load(object sender, EventArgs e)
         {
             canva = pnlFondo.CreateGraphics();
+        }
+
+        private void btnPoligono_Click(object sender, EventArgs e)
+        {
+            estado = EstadoHerramienta.DibPoligono;
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            canva = pnlFondo.CreateGraphics();
+            canva.Clear(Color.White);
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0112) // WM_SYSCOMMAND
+            {
+                // Check your window state here
+                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
+                {
+                    canva = pnlFondo.CreateGraphics();
+                    canva.Clear(Color.White);
+                }
+            }
+            base.WndProc(ref m);
+        }
+
+        private void Form1_ClientSizeChanged(object sender, EventArgs e)
+        {
+            //canva = pnlFondo.CreateGraphics();
+            //canva.Clear(Color.White);
         }
     }
 }
