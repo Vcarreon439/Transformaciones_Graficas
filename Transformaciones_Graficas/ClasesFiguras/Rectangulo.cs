@@ -9,26 +9,32 @@ namespace Transformaciones_Graficas.ClasesDibujo
 {
     public class Rectangulo : Figura
     {
-
-        
+        public Rectangulo(Figura fig) : base(fig)
+        {
+            this.TipoDFigura = TipodeFigura.Rectangulo;
+        }
 
         public Rectangulo(Point origin, Point end) : base(origin, end)
         {
+            this.TipoDFigura = TipodeFigura.Rectangulo;
             Comprobacion();
         }
 
         public Rectangulo(Point origin, Point end, Pen contorno) : base(origin, end, contorno)
         {
+            this.TipoDFigura = TipodeFigura.Rectangulo;
             Comprobacion();
         }
 
         public Rectangulo(Point origin, Point end, SolidBrush relleno) : base(origin, end, relleno)
         {
+            this.TipoDFigura = TipodeFigura.Rectangulo;
             Comprobacion();
         }
 
         public Rectangulo(Point origin, Point end, Pen contorno, SolidBrush relleno) : base(origin, end, contorno, relleno)
         {
+            this.TipoDFigura = TipodeFigura.Rectangulo;
             Comprobacion();
         }
     }
