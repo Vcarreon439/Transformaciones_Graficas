@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Transformaciones_Graficas
 {   
@@ -19,21 +20,39 @@ namespace Transformaciones_Graficas
 
         #region Constructores
 
+        public static Poligono ConvertShapeToPoligon(Figura fig, int cant = 3, int skip = 1)
+        {
+            return new Poligono(fig.OriginPoint, fig.EndPoint, fig.ContourPen, fig.FillBrush, cant, skip);
+        }
+
+        public Poligono(Figura fig, int cant = 3, int skip = 1) : base(fig)
+        {
+            this.TipoDFigura = TipodeFigura.Poligono;
+            Poligono.ConvertShapeToPoligon(fig);
+        }
+
         public Poligono(Point origin, Point end, int cantVertices = 3, int skip = 1) : base(origin, end)
         {
+            this.TipoDFigura = TipodeFigura.Poligono;
             MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         public Poligono(Point origin, Point end, Pen contorno, int cantVertices = 3, int skip = 1) : base(origin, end, contorno)
         {
+            this.TipoDFigura = TipodeFigura.Poligono;
+            MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         public Poligono(Point origin, Point end, SolidBrush relleno, int cantVertices = 3, int skip = 1) : base(origin, end, relleno)
         {
+            this.TipoDFigura = TipodeFigura.Poligono;
+            MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         public Poligono(Point origin, Point end, Pen contorno, SolidBrush relleno, int cantVertices = 3, int skip = 1) : base(origin, end, contorno, relleno)
         {
+            this.TipoDFigura = TipodeFigura.Poligono;
+            MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         #endregion
@@ -71,7 +90,7 @@ namespace Transformaciones_Graficas
                 {
                     Vertices.Add(new PointF(
                         (float)(cx + rx * Math.Cos(theta)),
-                        (float)(cy + ry * Math.Sin(theta))+((float)(rect.Height*0.1))));
+                        (float)(cy + ry * Math.Sin(theta))/*+((float)(rect.Height*0.1))*/));
                     theta += dtheta;
                 }
 
@@ -97,6 +116,55 @@ namespace Transformaciones_Graficas
                 theta += dtheta;
             }
             return;
+        }
+
+        // Generate the points for a star.
+        private List<PointF> MakeStarPoints2(double start_theta, int num_points, int skip, Rectangle rect)
+        {
+            double theta, dtheta;
+            //PointF[] vertices;
+            float rx = rect.Width / 2f;
+            float ry = rect.Height / 2f;
+            float cx = rect.X + rx;
+            float cy = rect.Y + ry;
+
+            // If this is a polygon, don't bother with concave points.
+            if (skip == 1)
+            {
+                //Lista que almacenara los vertices del poligono
+                Vertices = new List<PointF>(num_points);
+                theta = start_theta;//-pi/2
+                dtheta = 2 * Math.PI / num_points;//2pi/n
+                for (int i = 0; i < num_points; i++)
+                {
+                    Vertices.Add(new PointF(
+                        (float)(cx + rx * Math.Cos(theta)),
+                        (float)(cy + ry * Math.Sin(theta))/*+((float)(rect.Height*0.1))*/));
+                    theta += dtheta;
+                }
+
+                return Vertices;
+            }
+
+            // Find the radius for the concave vertices.
+            double concave_radius = CalculateConcaveRadius(num_points, skip);
+
+            // Make the points.
+            Vertices = new List<PointF>(2 * num_points);
+            theta = start_theta;
+            dtheta = Math.PI / num_points;
+            for (int i = 0; i < num_points; i++)
+            {
+                Vertices[2 * i] = new PointF(
+                    (float)(cx + rx * Math.Cos(theta)),
+                    (float)(cy + ry * Math.Sin(theta)));
+                theta += dtheta;
+                Vertices[2 * i + 1] = new PointF(
+                    (float)(cx + rx * Math.Cos(theta) * concave_radius),
+                    (float)(cy + ry * Math.Sin(theta) * concave_radius));
+                theta += dtheta;
+            }
+            return Vertices;
         }
 
         // Calculate the inner star radius.
