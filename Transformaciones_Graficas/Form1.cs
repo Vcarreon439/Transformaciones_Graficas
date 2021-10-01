@@ -12,69 +12,117 @@ using Transformaciones_Graficas.ClasesDibujo;
 
 namespace Transformaciones_Graficas
 {
-    public enum EstadoHerramienta
-    {
-        Ninguno,
-        Seleccionar,
-        Mover,
-        Rotar,
-        DibujandoCirculo,
-        DibujandoRectangulo,
-        DibPoligono
-    }
-
     public partial class Form1 : Form
     {
+        #region VariablesDeControl
+        //Lista que contendra las figuras a dibujar
+        private ListaFiguras lista = new ListaFiguras();
+        //Area de dibujo
         private Graphics canva;
+        //Variables de control de estado del programa
+        private EstadoDelPrograma.Herramienta herramienta;
+        private EstadoDelPrograma.TipoDibujo dibujo;
+        //Variables para el relleno y contorno de la figura dibujada
+        private Pen contorno;
+        private SolidBrush rellenoBrush;
+        //Figura auxiliar para ser almacenada en lista(ListaFiguras)
+        public Figura AuxFigura;
+        //Variable para en tamaño del menu derecho
+        private int width;
+        //Variables de control para el origen y final de la figura dibujada
+        private Point orginPoint;
+        private Point endPoint;
+        #endregion
 
-        private EstadoHerramienta estado = EstadoHerramienta.Ninguno;
+        #region EnumEstado del Programa
 
-        public Form1()
+        /// <summary>
+        /// Es para el control de las Herramientas del programa
+        /// </summary>
+        internal class EstadoDelPrograma
         {
-            InitializeComponent();
+            public enum Herramienta
+            {
+                Ninguno,
+                Seleccionar,
+                Mover,
+                Rotar,
+                Dibujando
+            }
+
+            public enum TipoDibujo
+            {
+                Ninguno,
+                Rectangulo,
+                Circulo,
+                Poligono
+            }
         }
+
+        #endregion
+
+        #region Metodos propios de la clase
+
+        private Point GetMousePostion()
+        {
+            return PointToClient(Cursor.Position);
+        }
+
+        /*protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0112) // WM_SYSCOMMAND
+            {
+                // Check your window state here
+                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
+                {
+                    canva = pnlFondo.CreateGraphics();
+                    canva.Clear(Color.White);
+                }
+            }
+            base.WndProc(ref m);
+        }*/
 
         private void ComprobarMenuDer()
         {
 
         }
-
-        private void Dibujar(Figura trazo)
+        private void Log(string mensaje)
         {
-            switch (estado)
+            txtLog.Text += $"{mensaje}" + Environment.NewLine;
+        }
+
+        private void Dibujar(ref Figura trazo)
+        {
+            this.contorno = new Pen(btnContorno.BackColor);
+            this.rellenoBrush = new SolidBrush(btnRelleno.BackColor);
+
+            switch (dibujo)
             {
-                case EstadoHerramienta.Ninguno:
+                case EstadoDelPrograma.TipoDibujo.Circulo:
+                    Elipse elips = new Elipse(trazo.OriginPoint, trazo.EndPoint, contorno, rellenoBrush);
+                    Dibujado.DibujarCirculo(canva, elips);
+                    trazo = elips;
+                    break;
+                ////
+                case EstadoDelPrograma.TipoDibujo.Poligono:
+                    Poligono poli = new Poligono(trazo.OriginPoint, trazo.EndPoint, contorno, rellenoBrush);
+                    Dibujado.DibujarPoligono(canva, poli);
+                    trazo.TipoDFigura = Figura.TipodeFigura.Poligono;
+                    trazo = poli;
                     break;
 
-                case EstadoHerramienta.Seleccionar:
-                    break;
-
-                case EstadoHerramienta.Mover:
-                    break;
-
-                case EstadoHerramienta.Rotar:
-                    break;
-
-                case EstadoHerramienta.DibujandoCirculo:
-                    DibujarCirculo(new Elipse(orginPoint, endPoint));
-                    break;
-
-                case EstadoHerramienta.DibPoligono:
-                    Dibujado dibujo = new Dibujado(canva);
-                    Poligono obj = new Poligono(orginPoint, endPoint, 4);
-                    Dibujado.DrawStar(canva, obj);
-                    DibujarRectangulo(new Rectangulo(orginPoint, endPoint));
-                    break;
-
-                case EstadoHerramienta.DibujandoRectangulo:
-                    DibujarRectangulo(new Rectangulo(orginPoint, endPoint));
+                case EstadoDelPrograma.TipoDibujo.Rectangulo:
+                    Rectangulo rect = new Rectangulo(trazo.OriginPoint, trazo.EndPoint, contorno, rellenoBrush);
+                    Dibujado.DibujarRectangulo(canva, rect);
+                    trazo.TipoDFigura = Figura.TipodeFigura.Rectangulo;
+                    trazo = rect;
                     break;
             }
         }
 
+        #endregion
 
-        //Global for menu der
-        private int width;
+        #region Eventos del Programa
 
         private void icnPctShHi2_Click(object sender, EventArgs e)
         {
@@ -93,50 +141,39 @@ namespace Transformaciones_Graficas
             }
         }
 
-        private void DibujarRectangulo(Pen contorno, Brush relleno, Point A, Point B)
-        {
-            Rectangle fig = new Rectangle(A.X, A.Y, (B.X - A.X), (B.Y - A.Y));
-            canva.FillRectangle(relleno, fig);
-            canva.DrawRectangle(contorno, fig);
-        }
 
-        private void DibujarCirculo(Elipse figura)
-        {
-            Rectangle fig = new Rectangle(figura.OriginPoint.X, figura.OriginPoint.Y, figura.FigSize.Width, figura.FigSize.Height);
-            canva.FillEllipse(figura.FillBrush, fig);
-            canva.DrawEllipse(figura.ContourPen, fig);
-        }
-        
-        private void DibujarRectangulo(Rectangulo rectangulo)
-        {
-            Rectangle fig = new Rectangle(rectangulo.OriginPoint.X, rectangulo.OriginPoint.Y, rectangulo.FigSize.Width, rectangulo.FigSize.Height);
-            canva.FillRectangle(rectangulo.FillBrush, fig);
-            canva.DrawRectangle(rectangulo.ContourPen, fig);
-        }
-
-        private Point orginPoint;
-        private Point endPoint;
 
         private void pnlFondo_MouseUp(object sender, MouseEventArgs e)
         {
             pres = false;
+            Log($"Figura: {AuxFigura.TipoDFigura} dibujada en Start:{AuxFigura.OriginPoint}, End:{AuxFigura.EndPoint}");
+            lista.AgregarFigura(AuxFigura);
+
+            Dibujado.DibujarAnteriores(canva, lista);
+
         }
 
         private bool pres = false;
         private void pnlFondo_MouseMove(object sender, MouseEventArgs e)
         {
-            if (pres==false)
+            if (pres == false)
             {
 
             }
             else
             {
-                canva.Clear(Color.White);
-                endPoint = GetMousePostion();
-                Figura fig = new Figura(orginPoint,endPoint, new Pen(Color.Black,1), new SolidBrush(Color.White));
-                Dibujar(fig);
+                if (herramienta == EstadoDelPrograma.Herramienta.Dibujando)
+                {
+                    canva.Clear(Color.White);
+                    endPoint = GetMousePostion();
+                    Figura fig = new Figura(orginPoint, endPoint);
+                    Dibujar(ref fig);
+                    AuxFigura = fig;
+                }
             }
         }
+
+
 
         private void tmrUpdate_Tick(object sender, EventArgs e)
         {
@@ -145,17 +182,14 @@ namespace Transformaciones_Graficas
 
         private void btnCirculo_Click(object sender, EventArgs e)
         {
-            estado = EstadoHerramienta.DibujandoCirculo;
+            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
+            dibujo = EstadoDelPrograma.TipoDibujo.Circulo;
         }
 
         private void btnRectangulo_Click(object sender, EventArgs e)
         {
-            estado = EstadoHerramienta.DibujandoRectangulo;
-        }
-
-        private Point GetMousePostion()
-        {
-            return PointToClient(Cursor.Position);
+            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
+            dibujo = EstadoDelPrograma.TipoDibujo.Rectangulo;
         }
 
         private void pnlFondo_MouseDown(object sender, MouseEventArgs e)
@@ -171,7 +205,8 @@ namespace Transformaciones_Graficas
 
         private void btnPoligono_Click(object sender, EventArgs e)
         {
-            estado = EstadoHerramienta.DibPoligono;
+            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
+            dibujo = EstadoDelPrograma.TipoDibujo.Poligono;
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -180,24 +215,53 @@ namespace Transformaciones_Graficas
             canva.Clear(Color.White);
         }
 
-        protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == 0x0112) // WM_SYSCOMMAND
-            {
-                // Check your window state here
-                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
-                {
-                    canva = pnlFondo.CreateGraphics();
-                    canva.Clear(Color.White);
-                }
-            }
-            base.WndProc(ref m);
-        }
-
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
         {
             //canva = pnlFondo.CreateGraphics();
             //canva.Clear(Color.White);
+        }
+
+        private void btnContorno_Click(object sender, EventArgs e)
+        {
+            ColorDialog clr = new ColorDialog();
+            if (clr.ShowDialog() == DialogResult.OK)
+            {
+                btnContorno.BackColor = clr.Color;
+            }
+        }
+
+        private void btnRelleno_Click(object sender, EventArgs e)
+        {
+            ColorDialog clr = new ColorDialog();
+            if (clr.ShowDialog() == DialogResult.OK)
+            {
+                btnRelleno.BackColor = clr.Color;
+            }
+        }
+
+        private void btnContorno_CheckStateChanged(object sender, EventArgs e)
+        {
+            btnContorno.BackColor = Color.Yellow;
+        }
+
+        #endregion
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btnRotar_Click(object sender, EventArgs e)
+        {
+            Dibujado.RotateRectangle(canva, lista.enCanva[0],45);
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            tabCapas.AutoScroll = true;
+            CButton boton = new CButton(tabCapas);
+            tabCapas.Controls.Add(boton);
+            boton.BringToFront();
         }
     }
 }
