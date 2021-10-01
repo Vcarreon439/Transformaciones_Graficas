@@ -34,22 +34,27 @@ namespace Transformaciones_Graficas
             this.pnlFondo = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnMover = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnRotar = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripSplitButton();
             this.btnCirculo = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRectangulo = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPoligono = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnContorno = new System.Windows.Forms.ToolStripButton();
+            this.btnRelleno = new System.Windows.Forms.ToolStripButton();
             this.pnlMenuDer = new System.Windows.Forms.Panel();
             this.tabInfo = new System.Windows.Forms.TabControl();
             this.tabCapas = new System.Windows.Forms.TabPage();
             this.tabRegistro = new System.Windows.Forms.TabPage();
+            this.txtLog = new System.Windows.Forms.TextBox();
+            this.tabPropiedades = new System.Windows.Forms.TabPage();
             this.icnPctShHi2 = new FontAwesome.Sharp.IconPictureBox();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
-            this.tabPropiedades = new System.Windows.Forms.TabPage();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.pnlFondo.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.pnlMenuDer.SuspendLayout();
             this.tabInfo.SuspendLayout();
+            this.tabRegistro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icnPctShHi2)).BeginInit();
             this.SuspendLayout();
             // 
@@ -71,8 +76,11 @@ namespace Transformaciones_Graficas
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnMover,
-            this.toolStripButton1,
-            this.toolStripButton2});
+            this.btnRotar,
+            this.toolStripButton2,
+            this.btnContorno,
+            this.btnRelleno,
+            this.toolStripButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
@@ -90,15 +98,16 @@ namespace Transformaciones_Graficas
             this.btnMover.Text = "toolStripButton1";
             this.btnMover.ToolTipText = "Para seleccionar figuras";
             // 
-            // toolStripButton1
+            // btnRotar
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.ToolTipText = "Rotar figura";
+            this.btnRotar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRotar.Image = ((System.Drawing.Image)(resources.GetObject("btnRotar.Image")));
+            this.btnRotar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRotar.Name = "btnRotar";
+            this.btnRotar.Size = new System.Drawing.Size(30, 20);
+            this.btnRotar.Text = "toolStripButton1";
+            this.btnRotar.ToolTipText = "Rotar figura";
+            this.btnRotar.Click += new System.EventHandler(this.btnRotar_Click);
             // 
             // toolStripButton2
             // 
@@ -137,6 +146,33 @@ namespace Transformaciones_Graficas
             this.btnPoligono.Text = "Poligono";
             this.btnPoligono.Click += new System.EventHandler(this.btnPoligono_Click);
             // 
+            // btnContorno
+            // 
+            this.btnContorno.AutoSize = false;
+            this.btnContorno.BackColor = System.Drawing.Color.Black;
+            this.btnContorno.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnContorno.ForeColor = System.Drawing.Color.Transparent;
+            this.btnContorno.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnContorno.Name = "btnContorno";
+            this.btnContorno.Size = new System.Drawing.Size(30, 20);
+            this.btnContorno.Text = "toolStripButton3";
+            this.btnContorno.ToolTipText = "Contorno de la figura";
+            this.btnContorno.Click += new System.EventHandler(this.btnContorno_Click);
+            // 
+            // btnRelleno
+            // 
+            this.btnRelleno.AutoSize = false;
+            this.btnRelleno.BackColor = System.Drawing.Color.Transparent;
+            this.btnRelleno.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRelleno.ForeColor = System.Drawing.Color.Transparent;
+            this.btnRelleno.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.btnRelleno.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRelleno.Name = "btnRelleno";
+            this.btnRelleno.Size = new System.Drawing.Size(30, 20);
+            this.btnRelleno.Text = "toolStripButton4";
+            this.btnRelleno.ToolTipText = "Relleno de la figura";
+            this.btnRelleno.Click += new System.EventHandler(this.btnRelleno_Click);
+            // 
             // pnlMenuDer
             // 
             this.pnlMenuDer.BackColor = System.Drawing.Color.Transparent;
@@ -151,8 +187,8 @@ namespace Transformaciones_Graficas
             // tabInfo
             // 
             this.tabInfo.Controls.Add(this.tabCapas);
-            this.tabInfo.Controls.Add(this.tabRegistro);
             this.tabInfo.Controls.Add(this.tabPropiedades);
+            this.tabInfo.Controls.Add(this.tabRegistro);
             this.tabInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabInfo.Location = new System.Drawing.Point(0, 33);
             this.tabInfo.Name = "tabInfo";
@@ -172,6 +208,7 @@ namespace Transformaciones_Graficas
             // 
             // tabRegistro
             // 
+            this.tabRegistro.Controls.Add(this.txtLog);
             this.tabRegistro.Location = new System.Drawing.Point(4, 22);
             this.tabRegistro.Name = "tabRegistro";
             this.tabRegistro.Padding = new System.Windows.Forms.Padding(3);
@@ -179,6 +216,24 @@ namespace Transformaciones_Graficas
             this.tabRegistro.TabIndex = 1;
             this.tabRegistro.Text = "Registro";
             this.tabRegistro.UseVisualStyleBackColor = true;
+            // 
+            // txtLog
+            // 
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Location = new System.Drawing.Point(3, 3);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.Size = new System.Drawing.Size(178, 545);
+            this.txtLog.TabIndex = 0;
+            // 
+            // tabPropiedades
+            // 
+            this.tabPropiedades.Location = new System.Drawing.Point(4, 22);
+            this.tabPropiedades.Name = "tabPropiedades";
+            this.tabPropiedades.Size = new System.Drawing.Size(184, 551);
+            this.tabPropiedades.TabIndex = 2;
+            this.tabPropiedades.Text = "Propiedades";
+            this.tabPropiedades.UseVisualStyleBackColor = true;
             // 
             // icnPctShHi2
             // 
@@ -201,14 +256,15 @@ namespace Transformaciones_Graficas
             this.tmrUpdate.Interval = 1;
             this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
             // 
-            // tabPropiedades
+            // toolStripButton1
             // 
-            this.tabPropiedades.Location = new System.Drawing.Point(4, 22);
-            this.tabPropiedades.Name = "tabPropiedades";
-            this.tabPropiedades.Size = new System.Drawing.Size(184, 551);
-            this.tabPropiedades.TabIndex = 2;
-            this.tabPropiedades.Text = "Propiedades";
-            this.tabPropiedades.UseVisualStyleBackColor = true;
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // Form1
             // 
@@ -217,9 +273,9 @@ namespace Transformaciones_Graficas
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1044, 610);
             this.Controls.Add(this.pnlFondo);
+            this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "Form1";
-            this.TransparencyKey = System.Drawing.Color.Lime;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ClientSizeChanged += new System.EventHandler(this.Form1_ClientSizeChanged);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -229,6 +285,8 @@ namespace Transformaciones_Graficas
             this.toolStrip1.PerformLayout();
             this.pnlMenuDer.ResumeLayout(false);
             this.tabInfo.ResumeLayout(false);
+            this.tabRegistro.ResumeLayout(false);
+            this.tabRegistro.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icnPctShHi2)).EndInit();
             this.ResumeLayout(false);
 
@@ -243,13 +301,17 @@ namespace Transformaciones_Graficas
         private FontAwesome.Sharp.IconPictureBox icnPctShHi2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnMover;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnRotar;
         private System.Windows.Forms.ToolStripSplitButton toolStripButton2;
         private System.Windows.Forms.ToolStripMenuItem btnCirculo;
         private System.Windows.Forms.ToolStripMenuItem btnRectangulo;
         private System.Windows.Forms.ToolStripMenuItem btnPoligono;
         private System.Windows.Forms.Timer tmrUpdate;
         private System.Windows.Forms.TabPage tabPropiedades;
+        private System.Windows.Forms.ToolStripButton btnContorno;
+        private System.Windows.Forms.ToolStripButton btnRelleno;
+        private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

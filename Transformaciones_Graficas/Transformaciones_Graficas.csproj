@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ClasesDibujo\Dibujado.cs" />
     <Compile Include="ClasesFiguras\Elipse.cs" />
     <Compile Include="ClasesFiguras\Figura.cs" />
@@ -60,6 +63,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="ClasesFiguras\Poligono.cs" />
+    <Compile Include="ListaFiguras.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
