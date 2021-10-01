@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -13,6 +14,20 @@ namespace Transformaciones_Graficas
     /// </summary>
     public class Figura
     {
+        #region Enum para tipo de figura
+        /// <summary>
+        /// Sirve para identificar el tipo de figura segun cada clase heredada
+        /// </summary>
+        public enum TipodeFigura
+        {
+            Elipse,
+            Rectangulo,
+            Poligono,
+            Estrella
+        }
+
+        #endregion
+
         #region PrivateProperties
 
         //Puntos para region de area cuadrada
@@ -25,10 +40,23 @@ namespace Transformaciones_Graficas
         //Variables para contorno y rellenos
         private Pen _contourPen;
         private SolidBrush _fillBrush;
+        
+        //Variable para identificar el tipo de figura al cual se refiere
+        private TipodeFigura tipoDFigura;
 
         #endregion
 
         #region Constructors
+
+        public Figura(Figura fig)
+        {
+            OriginPoint = fig.OriginPoint;
+            EndPoint = fig.EndPoint;
+            Comprobacion();
+            this.figSize = calcularSize();
+            this.ContourPen = fig.ContourPen;
+            this._fillBrush = fig._fillBrush;
+        }
 
         /// <summary>
         /// Constructor en caso de no tener un relleno o un contorno
@@ -58,6 +86,7 @@ namespace Transformaciones_Graficas
             Comprobacion();
             this.figSize = calcularSize();
             this.ContourPen = contorno;
+            this._fillBrush = new SolidBrush(Color.Transparent);
         }
 
         /// <summary>
@@ -72,6 +101,7 @@ namespace Transformaciones_Graficas
             EndPoint = end;
             Comprobacion();
             this.figSize = calcularSize();
+            this.ContourPen = new Pen(Color.Transparent, 0);
             this._fillBrush = relleno;
         }
 
@@ -124,6 +154,12 @@ namespace Transformaciones_Graficas
             set => _fillBrush = value;
         }
 
+        public TipodeFigura TipoDFigura
+        {
+            get => tipoDFigura;
+            set => tipoDFigura = value;
+        }
+
         #endregion
 
         #region InternalMethods
@@ -136,6 +172,10 @@ namespace Transformaciones_Graficas
             return new Size(endPoint.X-OriginPoint.X, endPoint.Y-OriginPoint.Y);
         }
 
+
+        /// <summary>
+        /// Metodo para poder crear la figura hacia cualquier direccion
+        /// </summary>
         internal void Comprobacion()
         {
             if (this.EndPoint.X < this.OriginPoint.X)
