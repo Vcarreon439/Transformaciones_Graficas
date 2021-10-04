@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace Transformaciones_Graficas.ClasesDibujo
 {
@@ -11,6 +12,7 @@ namespace Transformaciones_Graficas.ClasesDibujo
     {
         public Rectangulo(Figura fig) : base(fig)
         {
+            this.Angulo = fig.Angulo;
             this.TipoDFigura = TipodeFigura.Rectangulo;
         }
 

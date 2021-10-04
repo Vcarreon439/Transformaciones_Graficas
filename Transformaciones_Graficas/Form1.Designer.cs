@@ -41,19 +41,35 @@ namespace Transformaciones_Graficas
             this.btnPoligono = new System.Windows.Forms.ToolStripMenuItem();
             this.btnContorno = new System.Windows.Forms.ToolStripButton();
             this.btnRelleno = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.pnlMenuDer = new System.Windows.Forms.Panel();
             this.tabInfo = new System.Windows.Forms.TabControl();
             this.tabCapas = new System.Windows.Forms.TabPage();
-            this.tabRegistro = new System.Windows.Forms.TabPage();
-            this.txtLog = new System.Windows.Forms.TextBox();
             this.tabPropiedades = new System.Windows.Forms.TabPage();
+            this.txtAngulo = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.txtLargo = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtAncho = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.txtPosY = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtPosX = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtIdentificador = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tabRegistro = new System.Windows.Forms.TabPage();
+            this.btnExportLog = new System.Windows.Forms.Button();
+            this.txtLog = new System.Windows.Forms.TextBox();
             this.icnPctShHi2 = new FontAwesome.Sharp.IconPictureBox();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.ladosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
             this.pnlFondo.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.pnlMenuDer.SuspendLayout();
             this.tabInfo.SuspendLayout();
+            this.tabPropiedades.SuspendLayout();
             this.tabRegistro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icnPctShHi2)).BeginInit();
             this.SuspendLayout();
@@ -69,7 +85,7 @@ namespace Transformaciones_Graficas
             this.pnlFondo.TabIndex = 1;
             this.pnlFondo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlFondo_MouseDown);
             this.pnlFondo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlFondo_MouseMove);
-            this.pnlFondo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pnlFondo_MouseUp);
+            this.pnlFondo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PnlFondo_MouseUp);
             // 
             // toolStrip1
             // 
@@ -140,6 +156,9 @@ namespace Transformaciones_Graficas
             // 
             // btnPoligono
             // 
+            this.btnPoligono.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ladosToolStripMenuItem,
+            this.toolStripTextBox1});
             this.btnPoligono.Image = ((System.Drawing.Image)(resources.GetObject("btnPoligono.Image")));
             this.btnPoligono.Name = "btnPoligono";
             this.btnPoligono.Size = new System.Drawing.Size(180, 22);
@@ -172,6 +191,16 @@ namespace Transformaciones_Graficas
             this.btnRelleno.Text = "toolStripButton4";
             this.btnRelleno.ToolTipText = "Relleno de la figura";
             this.btnRelleno.Click += new System.EventHandler(this.btnRelleno_Click);
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
             // 
             // pnlMenuDer
             // 
@@ -206,8 +235,126 @@ namespace Transformaciones_Graficas
             this.tabCapas.Text = "Capas";
             this.tabCapas.UseVisualStyleBackColor = true;
             // 
+            // tabPropiedades
+            // 
+            this.tabPropiedades.Controls.Add(this.txtAngulo);
+            this.tabPropiedades.Controls.Add(this.label6);
+            this.tabPropiedades.Controls.Add(this.txtLargo);
+            this.tabPropiedades.Controls.Add(this.label4);
+            this.tabPropiedades.Controls.Add(this.txtAncho);
+            this.tabPropiedades.Controls.Add(this.label5);
+            this.tabPropiedades.Controls.Add(this.txtPosY);
+            this.tabPropiedades.Controls.Add(this.label3);
+            this.tabPropiedades.Controls.Add(this.txtPosX);
+            this.tabPropiedades.Controls.Add(this.label2);
+            this.tabPropiedades.Controls.Add(this.txtIdentificador);
+            this.tabPropiedades.Controls.Add(this.label1);
+            this.tabPropiedades.Location = new System.Drawing.Point(4, 22);
+            this.tabPropiedades.Name = "tabPropiedades";
+            this.tabPropiedades.Size = new System.Drawing.Size(184, 551);
+            this.tabPropiedades.TabIndex = 2;
+            this.tabPropiedades.Text = "Propiedades";
+            this.tabPropiedades.UseVisualStyleBackColor = true;
+            // 
+            // txtAngulo
+            // 
+            this.txtAngulo.Location = new System.Drawing.Point(68, 161);
+            this.txtAngulo.Name = "txtAngulo";
+            this.txtAngulo.Size = new System.Drawing.Size(81, 20);
+            this.txtAngulo.TabIndex = 13;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(65, 145);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(40, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Angulo";
+            // 
+            // txtLargo
+            // 
+            this.txtLargo.Location = new System.Drawing.Point(95, 106);
+            this.txtLargo.Name = "txtLargo";
+            this.txtLargo.Size = new System.Drawing.Size(81, 20);
+            this.txtLargo.TabIndex = 9;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(92, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(34, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Largo";
+            // 
+            // txtAncho
+            // 
+            this.txtAncho.Location = new System.Drawing.Point(10, 106);
+            this.txtAncho.Name = "txtAncho";
+            this.txtAncho.Size = new System.Drawing.Size(79, 20);
+            this.txtAncho.TabIndex = 7;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 90);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(38, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Ancho";
+            // 
+            // txtPosY
+            // 
+            this.txtPosY.Location = new System.Drawing.Point(95, 63);
+            this.txtPosY.Name = "txtPosY";
+            this.txtPosY.Size = new System.Drawing.Size(81, 20);
+            this.txtPosY.TabIndex = 5;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(92, 47);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(14, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Y";
+            // 
+            // txtPosX
+            // 
+            this.txtPosX.Location = new System.Drawing.Point(10, 63);
+            this.txtPosX.Name = "txtPosX";
+            this.txtPosX.Size = new System.Drawing.Size(79, 20);
+            this.txtPosX.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(7, 47);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(14, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "X";
+            // 
+            // txtIdentificador
+            // 
+            this.txtIdentificador.Location = new System.Drawing.Point(10, 24);
+            this.txtIdentificador.Name = "txtIdentificador";
+            this.txtIdentificador.Size = new System.Drawing.Size(166, 20);
+            this.txtIdentificador.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Identificador";
+            // 
             // tabRegistro
             // 
+            this.tabRegistro.Controls.Add(this.btnExportLog);
             this.tabRegistro.Controls.Add(this.txtLog);
             this.tabRegistro.Location = new System.Drawing.Point(4, 22);
             this.tabRegistro.Name = "tabRegistro";
@@ -217,6 +364,17 @@ namespace Transformaciones_Graficas
             this.tabRegistro.Text = "Registro";
             this.tabRegistro.UseVisualStyleBackColor = true;
             // 
+            // btnExportLog
+            // 
+            this.btnExportLog.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnExportLog.Location = new System.Drawing.Point(99, 516);
+            this.btnExportLog.Name = "btnExportLog";
+            this.btnExportLog.Size = new System.Drawing.Size(75, 23);
+            this.btnExportLog.TabIndex = 1;
+            this.btnExportLog.Text = "Exportar Log";
+            this.btnExportLog.UseVisualStyleBackColor = true;
+            this.btnExportLog.Click += new System.EventHandler(this.btnExportLog_Click);
+            // 
             // txtLog
             // 
             this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -225,15 +383,6 @@ namespace Transformaciones_Graficas
             this.txtLog.Name = "txtLog";
             this.txtLog.Size = new System.Drawing.Size(178, 545);
             this.txtLog.TabIndex = 0;
-            // 
-            // tabPropiedades
-            // 
-            this.tabPropiedades.Location = new System.Drawing.Point(4, 22);
-            this.tabPropiedades.Name = "tabPropiedades";
-            this.tabPropiedades.Size = new System.Drawing.Size(184, 551);
-            this.tabPropiedades.TabIndex = 2;
-            this.tabPropiedades.Text = "Propiedades";
-            this.tabPropiedades.UseVisualStyleBackColor = true;
             // 
             // icnPctShHi2
             // 
@@ -254,17 +403,19 @@ namespace Transformaciones_Graficas
             // tmrUpdate
             // 
             this.tmrUpdate.Interval = 1;
-            this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
             // 
-            // toolStripButton1
+            // ladosToolStripMenuItem
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.ladosToolStripMenuItem.Name = "ladosToolStripMenuItem";
+            this.ladosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.ladosToolStripMenuItem.Text = "Lados";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
             // 
             // Form1
             // 
@@ -277,7 +428,6 @@ namespace Transformaciones_Graficas
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.ClientSizeChanged += new System.EventHandler(this.Form1_ClientSizeChanged);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.pnlFondo.ResumeLayout(false);
             this.pnlFondo.PerformLayout();
@@ -285,6 +435,8 @@ namespace Transformaciones_Graficas
             this.toolStrip1.PerformLayout();
             this.pnlMenuDer.ResumeLayout(false);
             this.tabInfo.ResumeLayout(false);
+            this.tabPropiedades.ResumeLayout(false);
+            this.tabPropiedades.PerformLayout();
             this.tabRegistro.ResumeLayout(false);
             this.tabRegistro.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.icnPctShHi2)).EndInit();
@@ -311,7 +463,22 @@ namespace Transformaciones_Graficas
         private System.Windows.Forms.ToolStripButton btnContorno;
         private System.Windows.Forms.ToolStripButton btnRelleno;
         private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.TextBox txtAngulo;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtLargo;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtAncho;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtPosY;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtPosX;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtIdentificador;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button btnExportLog;
         private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripMenuItem ladosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
     }
 }
 

@@ -6,6 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Shapes;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace Transformaciones_Graficas
 {
@@ -14,6 +16,7 @@ namespace Transformaciones_Graficas
     /// </summary>
     public class Figura
     {
+
         #region Enum para tipo de figura
         /// <summary>
         /// Sirve para identificar el tipo de figura segun cada clase heredada
@@ -29,6 +32,13 @@ namespace Transformaciones_Graficas
         #endregion
 
         #region PrivateProperties
+
+        private int cantVertices;
+
+        private float _angulo;
+
+        //Propiedad para identificar a la figura
+        private string _identificador;
 
         //Puntos para region de area cuadrada
         private Point originPoint;
@@ -158,6 +168,24 @@ namespace Transformaciones_Graficas
         {
             get => tipoDFigura;
             set => tipoDFigura = value;
+        }
+
+        public string Identificador
+        {
+            get => _identificador;
+            set => _identificador = value;
+        }
+
+        public float Angulo
+        {
+            get => _angulo;
+            set => _angulo = value;
+        }
+
+        public int CantVertices
+        {
+            get => cantVertices;
+            set => cantVertices = value;
         }
 
         #endregion

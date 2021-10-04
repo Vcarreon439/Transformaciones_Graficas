@@ -9,6 +9,7 @@ namespace Transformaciones_Graficas
 {
     public class Elipse : Figura
     {
+
         public Elipse(Figura fig) : base(fig)
         {
             this.TipoDFigura = TipodeFigura.Elipse;

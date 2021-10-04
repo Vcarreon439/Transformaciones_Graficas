@@ -12,7 +12,6 @@ namespace Transformaciones_Graficas
     {
         #region Variables Internas
 
-        private int cantVertices;
         private int skip;
         private List<PointF> vertices;
 
@@ -27,30 +26,35 @@ namespace Transformaciones_Graficas
 
         public Poligono(Figura fig, int cant = 3, int skip = 1) : base(fig)
         {
+            this.CantVertices = cant;
             this.TipoDFigura = TipodeFigura.Poligono;
             Poligono.ConvertShapeToPoligon(fig);
         }
 
         public Poligono(Point origin, Point end, int cantVertices = 3, int skip = 1) : base(origin, end)
         {
+            this.CantVertices = cantVertices;
             this.TipoDFigura = TipodeFigura.Poligono;
             MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         public Poligono(Point origin, Point end, Pen contorno, int cantVertices = 3, int skip = 1) : base(origin, end, contorno)
         {
+            this.CantVertices = cantVertices;
             this.TipoDFigura = TipodeFigura.Poligono;
             MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         public Poligono(Point origin, Point end, SolidBrush relleno, int cantVertices = 3, int skip = 1) : base(origin, end, relleno)
         {
+            this.CantVertices = cantVertices;
             this.TipoDFigura = TipodeFigura.Poligono;
             MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
 
         public Poligono(Point origin, Point end, Pen contorno, SolidBrush relleno, int cantVertices = 3, int skip = 1) : base(origin, end, contorno, relleno)
         {
+            this.CantVertices = cantVertices;
             this.TipoDFigura = TipodeFigura.Poligono;
             MakeStarPoints(-Math.PI / 2, cantVertices, skip, new Rectangle(this.OriginPoint, this.FigSize));
         }
@@ -88,10 +92,21 @@ namespace Transformaciones_Graficas
                 dtheta = 2 * Math.PI / num_points;//2pi/n
                 for (int i = 0; i < num_points; i++)
                 {
-                    Vertices.Add(new PointF(
-                        (float)(cx + rx * Math.Cos(theta)),
-                        (float)(cy + ry * Math.Sin(theta))/*+((float)(rect.Height*0.1))*/));
-                    theta += dtheta;
+                    if (num_points==3)
+                    {
+                        Vertices.Add(new PointF(
+                            (float)(cx + rx * Math.Cos(theta)),
+                            (float)(cy + ry * Math.Sin(theta))+((float)(rect.Height*0.1))));
+                        theta += dtheta;
+                    }
+
+                    if (num_points>3)
+                    {
+                        Vertices.Add(new PointF(
+                            (float)(cx + rx * Math.Cos(theta)),
+                            (float)(cy + ry * Math.Sin(theta))+((float)(rect.Height*0.01))));
+                        theta += dtheta;
+                    }
                 }
 
                 return;

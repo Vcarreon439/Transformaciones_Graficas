@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -63,37 +65,20 @@ namespace Transformaciones_Graficas
 
         #region Metodos propios de la clase
 
-        private Point GetMousePostion()
-        {
-            return PointToClient(Cursor.Position);
-        }
-
-        /*protected override void WndProc(ref Message m)
-        {
-            if (m.Msg == 0x0112) // WM_SYSCOMMAND
-            {
-                // Check your window state here
-                if (m.WParam == new IntPtr(0xF030)) // Maximize event - SC_MAXIMIZE from Winuser.h
-                {
-                    canva = pnlFondo.CreateGraphics();
-                    canva.Clear(Color.White);
-                }
-            }
-            base.WndProc(ref m);
-        }*/
-
-        private void ComprobarMenuDer()
-        {
-
-        }
         private void Log(string mensaje)
         {
             txtLog.Text += $"{mensaje}" + Environment.NewLine;
         }
 
+        /// <summary>
+        /// Dibuja determinada figura en el canva principal
+        /// </summary>
+        /// <param name="trazo">Figura la cual se plasmara en el canva principal</param>
         private void Dibujar(ref Figura trazo)
         {
+            //Contorno de la figura
             this.contorno = new Pen(btnContorno.BackColor);
+            //Relleno de la figura
             this.rellenoBrush = new SolidBrush(btnRelleno.BackColor);
 
             switch (dibujo)
@@ -105,7 +90,7 @@ namespace Transformaciones_Graficas
                     break;
                 ////
                 case EstadoDelPrograma.TipoDibujo.Poligono:
-                    Poligono poli = new Poligono(trazo.OriginPoint, trazo.EndPoint, contorno, rellenoBrush);
+                    Poligono poli = new Poligono(trazo.OriginPoint, trazo.EndPoint, contorno, rellenoBrush, lados);
                     Dibujado.DibujarPoligono(canva, poli);
                     trazo.TipoDFigura = Figura.TipodeFigura.Poligono;
                     trazo = poli;
@@ -113,7 +98,7 @@ namespace Transformaciones_Graficas
 
                 case EstadoDelPrograma.TipoDibujo.Rectangulo:
                     Rectangulo rect = new Rectangulo(trazo.OriginPoint, trazo.EndPoint, contorno, rellenoBrush);
-                    Dibujado.DibujarRectangulo(canva, rect);
+                    Dibujado.DibujarRectangulo(ref canva, rect);
                     trazo.TipoDFigura = Figura.TipodeFigura.Rectangulo;
                     trazo = rect;
                     break;
@@ -123,6 +108,13 @@ namespace Transformaciones_Graficas
         #endregion
 
         #region Eventos del Programa
+        private void btnRotar_Click(object sender, EventArgs e)
+        {
+            canva.Clear(Color.White);
+            Dibujado.RotateRectangle(ref canva,AuxFigura, 45);
+            Dibujado.DibujarAnteriores(canva, lista);
+            Log($"{AuxFigura.TipoDFigura} rotada {45}, {AuxFigura.OriginPoint}, E{AuxFigura.EndPoint}");
+        }
 
         private void icnPctShHi2_Click(object sender, EventArgs e)
         {
@@ -142,42 +134,38 @@ namespace Transformaciones_Graficas
         }
 
 
-
-        private void pnlFondo_MouseUp(object sender, MouseEventArgs e)
+        private void PnlFondo_MouseUp(object sender, MouseEventArgs e)
         {
             pres = false;
-            Log($"Figura: {AuxFigura.TipoDFigura} dibujada en Start:{AuxFigura.OriginPoint}, End:{AuxFigura.EndPoint}");
+            //Agrega un boton al tabCapas
+            AgregarCapa(AuxFigura);    
+            //Agrega mensaje al Log
+            Log($"{AuxFigura.TipoDFigura} dibujada en ({AuxFigura.OriginPoint}), tamaño:({AuxFigura.FigSize})");
+            //Agrega la figura a una lista donde se guardara para volver a ser dibujada
             lista.AgregarFigura(AuxFigura);
-
+            //Dibuja las figuras anteriores
             Dibujado.DibujarAnteriores(canva, lista);
+        }
+
+        private async void AgregarCapa(Figura fig)
+        {
+
 
         }
 
         private bool pres = false;
+
         private void pnlFondo_MouseMove(object sender, MouseEventArgs e)
         {
-            if (pres == false)
+            if (pres && herramienta == EstadoDelPrograma.Herramienta.Dibujando)
             {
-
+                canva.Clear(Color.White);
+                endPoint = pnlFondo.PointToClient(MousePosition); ;
+                Figura fig = new Figura(orginPoint, endPoint);
+                Dibujar(ref fig);
+                AuxFigura = fig;
+                AuxFigura.Identificador = $"{AuxFigura.TipoDFigura} {lista.enCanva.Count}";
             }
-            else
-            {
-                if (herramienta == EstadoDelPrograma.Herramienta.Dibujando)
-                {
-                    canva.Clear(Color.White);
-                    endPoint = GetMousePostion();
-                    Figura fig = new Figura(orginPoint, endPoint);
-                    Dibujar(ref fig);
-                    AuxFigura = fig;
-                }
-            }
-        }
-
-
-
-        private void tmrUpdate_Tick(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCirculo_Click(object sender, EventArgs e)
@@ -194,13 +182,15 @@ namespace Transformaciones_Graficas
 
         private void pnlFondo_MouseDown(object sender, MouseEventArgs e)
         {
-            orginPoint = GetMousePostion();
+            orginPoint = pnlFondo.PointToClient(Cursor.Position);
             pres = true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             canva = pnlFondo.CreateGraphics();
+            DoubleBuffered = true;
+            tmrUpdate.Start();
         }
 
         private void btnPoligono_Click(object sender, EventArgs e)
@@ -213,12 +203,7 @@ namespace Transformaciones_Graficas
         {
             canva = pnlFondo.CreateGraphics();
             canva.Clear(Color.White);
-        }
-
-        private void Form1_ClientSizeChanged(object sender, EventArgs e)
-        {
-            //canva = pnlFondo.CreateGraphics();
-            //canva.Clear(Color.White);
+            Dibujado.DibujarAnteriores(canva, lista);
         }
 
         private void btnContorno_Click(object sender, EventArgs e)
@@ -239,11 +224,6 @@ namespace Transformaciones_Graficas
             }
         }
 
-        private void btnContorno_CheckStateChanged(object sender, EventArgs e)
-        {
-            btnContorno.BackColor = Color.Yellow;
-        }
-
         #endregion
 
         public Form1()
@@ -251,17 +231,25 @@ namespace Transformaciones_Graficas
             InitializeComponent();
         }
 
-        private void btnRotar_Click(object sender, EventArgs e)
+        private async void btnExportLog_Click(object sender, EventArgs e)
         {
-            Dibujado.RotateRectangle(canva, lista.enCanva[0],45);
+            string folderName = @"Logs/";
+            // If directory does not exist, create it
+            if (!Directory.Exists(folderName))
+                Directory.CreateDirectory(folderName);
+
+            File.WriteAllText($"Logs/{DateTime.Today.Day}-{DateTime.Today.Month}-{DateTime.Today.Year}.txt",txtLog.Text);
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void ToolStripButton1_Click(object sender, EventArgs e)
         {
-            tabCapas.AutoScroll = true;
-            CButton boton = new CButton(tabCapas);
-            tabCapas.Controls.Add(boton);
-            boton.BringToFront();
+
+        }
+
+        private int lados;
+        private void toolStripTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            lados = int.Parse(toolStripTextBox1.TextBox.Text);
         }
     }
 }

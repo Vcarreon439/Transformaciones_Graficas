@@ -26,5 +26,10 @@ namespace Transformaciones_Graficas
             enCanva.Remove(figura);
         }
 
+        public int ObtenerIndice(Figura figura)
+        {
+            return enCanva.FindIndex(a => a.Identificador == figura.Identificador);
+        }
+
     }
 }
