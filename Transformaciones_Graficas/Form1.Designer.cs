@@ -34,14 +34,20 @@ namespace Transformaciones_Graficas
             this.pnlFondo = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnMover = new System.Windows.Forms.ToolStripButton();
-            this.btnRotar = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripSplitButton();
+            this.btnBezier = new System.Windows.Forms.ToolStripButton();
+            this.btnRezise = new System.Windows.Forms.ToolStripButton();
+            this.btnRotar = new System.Windows.Forms.ToolStripDropDownButton();
+            this.anguloToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtAnguloFig = new System.Windows.Forms.ToolStripTextBox();
+            this.btnDibujar = new System.Windows.Forms.ToolStripSplitButton();
             this.btnCirculo = new System.Windows.Forms.ToolStripMenuItem();
             this.btnRectangulo = new System.Windows.Forms.ToolStripMenuItem();
             this.btnPoligono = new System.Windows.Forms.ToolStripMenuItem();
+            this.ladosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.txtLadosPoligono = new System.Windows.Forms.ToolStripTextBox();
             this.btnContorno = new System.Windows.Forms.ToolStripButton();
             this.btnRelleno = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.btnSesgado = new System.Windows.Forms.ToolStripButton();
             this.pnlMenuDer = new System.Windows.Forms.Panel();
             this.tabInfo = new System.Windows.Forms.TabControl();
             this.tabCapas = new System.Windows.Forms.TabPage();
@@ -63,8 +69,7 @@ namespace Transformaciones_Graficas
             this.txtLog = new System.Windows.Forms.TextBox();
             this.icnPctShHi2 = new FontAwesome.Sharp.IconPictureBox();
             this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
-            this.ladosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.pnlFondo.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.pnlMenuDer.SuspendLayout();
@@ -83,7 +88,10 @@ namespace Transformaciones_Graficas
             this.pnlFondo.Name = "pnlFondo";
             this.pnlFondo.Size = new System.Drawing.Size(1044, 610);
             this.pnlFondo.TabIndex = 1;
+            this.pnlFondo.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlFondo_Paint);
             this.pnlFondo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlFondo_MouseDown);
+            this.pnlFondo.MouseEnter += new System.EventHandler(this.pnlFondo_MouseEnter);
+            this.pnlFondo.MouseLeave += new System.EventHandler(this.pnlFondo_MouseLeave);
             this.pnlFondo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlFondo_MouseMove);
             this.pnlFondo.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PnlFondo_MouseUp);
             // 
@@ -92,8 +100,11 @@ namespace Transformaciones_Graficas
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Left;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnMover,
+            this.btnBezier,
+            this.btnSesgado,
+            this.btnRezise,
             this.btnRotar,
-            this.toolStripButton2,
+            this.btnDibujar,
             this.btnContorno,
             this.btnRelleno,
             this.toolStripButton1});
@@ -113,10 +124,36 @@ namespace Transformaciones_Graficas
             this.btnMover.Size = new System.Drawing.Size(30, 20);
             this.btnMover.Text = "toolStripButton1";
             this.btnMover.ToolTipText = "Para seleccionar figuras";
+            this.btnMover.Click += new System.EventHandler(this.btnMover_Click);
+            // 
+            // btnBezier
+            // 
+            this.btnBezier.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnBezier.Image = global::Transformaciones_Graficas.Properties.Resources.journey;
+            this.btnBezier.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBezier.Name = "btnBezier";
+            this.btnBezier.Size = new System.Drawing.Size(30, 20);
+            this.btnBezier.Text = "toolStripButton3";
+            this.btnBezier.Click += new System.EventHandler(this.btnBezier_Click);
+            // 
+            // btnRezise
+            // 
+            this.btnRezise.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRezise.ForeColor = System.Drawing.Color.Transparent;
+            this.btnRezise.Image = global::Transformaciones_Graficas.Properties.Resources.photo_size_select_small;
+            this.btnRezise.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnRezise.Name = "btnRezise";
+            this.btnRezise.Size = new System.Drawing.Size(30, 20);
+            this.btnRezise.Text = "toolStripButton1";
+            this.btnRezise.ToolTipText = "Redimensionar objeto";
+            this.btnRezise.Click += new System.EventHandler(this.btnRezise_Click);
             // 
             // btnRotar
             // 
             this.btnRotar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnRotar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.anguloToolStripMenuItem,
+            this.txtAnguloFig});
             this.btnRotar.Image = ((System.Drawing.Image)(resources.GetObject("btnRotar.Image")));
             this.btnRotar.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnRotar.Name = "btnRotar";
@@ -125,18 +162,32 @@ namespace Transformaciones_Graficas
             this.btnRotar.ToolTipText = "Rotar figura";
             this.btnRotar.Click += new System.EventHandler(this.btnRotar_Click);
             // 
-            // toolStripButton2
+            // anguloToolStripMenuItem
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.anguloToolStripMenuItem.Name = "anguloToolStripMenuItem";
+            this.anguloToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.anguloToolStripMenuItem.Text = "Angulo";
+            // 
+            // txtAnguloFig
+            // 
+            this.txtAnguloFig.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtAnguloFig.Name = "txtAnguloFig";
+            this.txtAnguloFig.Size = new System.Drawing.Size(100, 23);
+            this.txtAnguloFig.TextChanged += new System.EventHandler(this.txtAnguloFig_TextChanged);
+            // 
+            // btnDibujar
+            // 
+            this.btnDibujar.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnDibujar.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnCirculo,
             this.btnRectangulo,
             this.btnPoligono});
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(30, 20);
-            this.toolStripButton2.Text = "toolStripButton2";
+            this.btnDibujar.Image = ((System.Drawing.Image)(resources.GetObject("btnDibujar.Image")));
+            this.btnDibujar.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDibujar.Name = "btnDibujar";
+            this.btnDibujar.Size = new System.Drawing.Size(30, 20);
+            this.btnDibujar.Text = "toolStripButton2";
+            this.btnDibujar.Click += new System.EventHandler(this.btnDibujar_Click);
             // 
             // btnCirculo
             // 
@@ -158,12 +209,25 @@ namespace Transformaciones_Graficas
             // 
             this.btnPoligono.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ladosToolStripMenuItem,
-            this.toolStripTextBox1});
+            this.txtLadosPoligono});
             this.btnPoligono.Image = ((System.Drawing.Image)(resources.GetObject("btnPoligono.Image")));
             this.btnPoligono.Name = "btnPoligono";
             this.btnPoligono.Size = new System.Drawing.Size(180, 22);
             this.btnPoligono.Text = "Poligono";
             this.btnPoligono.Click += new System.EventHandler(this.btnPoligono_Click);
+            // 
+            // ladosToolStripMenuItem
+            // 
+            this.ladosToolStripMenuItem.Name = "ladosToolStripMenuItem";
+            this.ladosToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.ladosToolStripMenuItem.Text = "Lados";
+            // 
+            // txtLadosPoligono
+            // 
+            this.txtLadosPoligono.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtLadosPoligono.Name = "txtLadosPoligono";
+            this.txtLadosPoligono.Size = new System.Drawing.Size(100, 23);
+            this.txtLadosPoligono.TextChanged += new System.EventHandler(this.txtLadosPoligono_TextChanged);
             // 
             // btnContorno
             // 
@@ -192,15 +256,17 @@ namespace Transformaciones_Graficas
             this.btnRelleno.ToolTipText = "Relleno de la figura";
             this.btnRelleno.Click += new System.EventHandler(this.btnRelleno_Click);
             // 
-            // toolStripButton1
+            // btnSesgado
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
-            this.toolStripButton1.Text = "toolStripButton1";
-            this.toolStripButton1.Click += new System.EventHandler(this.ToolStripButton1_Click);
+            this.btnSesgado.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.btnSesgado.Image = global::Transformaciones_Graficas.Properties.Resources.format_shapes;
+            this.btnSesgado.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSesgado.Name = "btnSesgado";
+            this.btnSesgado.Size = new System.Drawing.Size(30, 20);
+            this.btnSesgado.Text = "toolStripButton1";
+            this.btnSesgado.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
+            this.btnSesgado.ToolTipText = "Modificar los puntos de las figuras";
+            this.btnSesgado.Click += new System.EventHandler(this.btnSesgado_Click);
             // 
             // pnlMenuDer
             // 
@@ -404,18 +470,15 @@ namespace Transformaciones_Graficas
             // 
             this.tmrUpdate.Interval = 1;
             // 
-            // ladosToolStripMenuItem
+            // toolStripButton1
             // 
-            this.ladosToolStripMenuItem.Name = "ladosToolStripMenuItem";
-            this.ladosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.ladosToolStripMenuItem.Text = "Lados";
-            // 
-            // toolStripTextBox1
-            // 
-            this.toolStripTextBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.TextChanged += new System.EventHandler(this.toolStripTextBox1_TextChanged);
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(30, 20);
+            this.toolStripButton1.Text = "toolStripButton1";
+            this.toolStripButton1.ToolTipText = "Informacion de los desarrolladores";
             // 
             // Form1
             // 
@@ -453,8 +516,7 @@ namespace Transformaciones_Graficas
         private FontAwesome.Sharp.IconPictureBox icnPctShHi2;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton btnMover;
-        private System.Windows.Forms.ToolStripButton btnRotar;
-        private System.Windows.Forms.ToolStripSplitButton toolStripButton2;
+        private System.Windows.Forms.ToolStripSplitButton btnDibujar;
         private System.Windows.Forms.ToolStripMenuItem btnCirculo;
         private System.Windows.Forms.ToolStripMenuItem btnRectangulo;
         private System.Windows.Forms.ToolStripMenuItem btnPoligono;
@@ -476,9 +538,15 @@ namespace Transformaciones_Graficas
         private System.Windows.Forms.TextBox txtIdentificador;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnExportLog;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
+        private System.Windows.Forms.ToolStripButton btnRezise;
         private System.Windows.Forms.ToolStripMenuItem ladosToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripTextBox txtLadosPoligono;
+        private System.Windows.Forms.ToolStripDropDownButton btnRotar;
+        private System.Windows.Forms.ToolStripMenuItem anguloToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox txtAnguloFig;
+        private System.Windows.Forms.ToolStripButton btnBezier;
+        private System.Windows.Forms.ToolStripButton btnSesgado;
+        private System.Windows.Forms.ToolStripButton toolStripButton1;
     }
 }
 

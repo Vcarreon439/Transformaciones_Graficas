@@ -9,6 +9,7 @@ using System.Runtime.Remoting.Channels;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BezierControl;
 using FontAwesome.Sharp;
 using Transformaciones_Graficas.ClasesDibujo;
 
@@ -34,6 +35,10 @@ namespace Transformaciones_Graficas
         //Variables de control para el origen y final de la figura dibujada
         private Point orginPoint;
         private Point endPoint;
+
+        private BezierLine bezier;
+        private PoligonLine poligon;
+
         #endregion
 
         #region EnumEstado del Programa
@@ -46,10 +51,12 @@ namespace Transformaciones_Graficas
             public enum Herramienta
             {
                 Ninguno,
-                Seleccionar,
                 Mover,
                 Rotar,
-                Dibujando
+                Dibujando,
+                Bezier,
+                Redimensionar,
+                Sesgado
             }
 
             public enum TipoDibujo
@@ -108,12 +115,19 @@ namespace Transformaciones_Graficas
         #endregion
 
         #region Eventos del Programa
+
+        private float angulo = 0;
         private void btnRotar_Click(object sender, EventArgs e)
         {
-            canva.Clear(Color.White);
-            Dibujado.RotateRectangle(ref canva,AuxFigura, 45);
-            Dibujado.DibujarAnteriores(canva, lista);
-            Log($"{AuxFigura.TipoDFigura} rotada {45}, {AuxFigura.OriginPoint}, E{AuxFigura.EndPoint}");
+            herramienta = EstadoDelPrograma.Herramienta.Rotar;
+
+            if (lista.isStart)
+            {
+                canva.Clear(Color.White);
+                Dibujado.RotateRectangle(ref canva, AuxFigura, angulo);
+                Dibujado.DibujarAnteriores(canva, lista);
+                Log($"{AuxFigura.TipoDFigura} rotada {angulo}, {AuxFigura.OriginPoint}, E{AuxFigura.EndPoint}");
+            }
         }
 
         private void icnPctShHi2_Click(object sender, EventArgs e)
@@ -136,15 +150,34 @@ namespace Transformaciones_Graficas
 
         private void PnlFondo_MouseUp(object sender, MouseEventArgs e)
         {
-            pres = false;
-            //Agrega un boton al tabCapas
-            AgregarCapa(AuxFigura);    
-            //Agrega mensaje al Log
-            Log($"{AuxFigura.TipoDFigura} dibujada en ({AuxFigura.OriginPoint}), tamaño:({AuxFigura.FigSize})");
-            //Agrega la figura a una lista donde se guardara para volver a ser dibujada
-            lista.AgregarFigura(AuxFigura);
-            //Dibuja las figuras anteriores
-            Dibujado.DibujarAnteriores(canva, lista);
+            if (herramienta == EstadoDelPrograma.Herramienta.Bezier)
+            {
+                bezier.MouseUp(e);
+            }
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
+            {
+                poligon.MouseUp(e);
+            }
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Dibujando)
+            {
+                pres = false;
+                //Agrega un boton al tabCapas
+                AgregarCapa(AuxFigura);
+                //Agrega mensaje al Log
+                /////
+                Log($"{AuxFigura.TipoDFigura} dibujada en ({AuxFigura.OriginPoint}), tamaño:({AuxFigura.FigSize})");
+                //Agrega la figura a una lista donde se guardara para volver a ser dibujada
+                lista.AgregarFigura(AuxFigura);
+                //Dibuja las figuras anteriores
+                Dibujado.DibujarAnteriores(canva, lista);
+            }
+
+            if (lista.isStart)
+            {
+                Dibujado.DibujarAnteriores(canva, lista);
+            }
         }
 
         private async void AgregarCapa(Figura fig)
@@ -157,6 +190,20 @@ namespace Transformaciones_Graficas
 
         private void pnlFondo_MouseMove(object sender, MouseEventArgs e)
         {
+            if (herramienta == EstadoDelPrograma.Herramienta.Bezier)
+            {
+                bezier.MouseMove(e);
+            }
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
+            {
+                poligon.MouseMove(e);
+            }
+
+                
+
+            //bezier.MouseMove(e);
+
             if (pres && herramienta == EstadoDelPrograma.Herramienta.Dibujando)
             {
                 canva.Clear(Color.White);
@@ -170,24 +217,63 @@ namespace Transformaciones_Graficas
 
         private void btnCirculo_Click(object sender, EventArgs e)
         {
-            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
             dibujo = EstadoDelPrograma.TipoDibujo.Circulo;
         }
 
         private void btnRectangulo_Click(object sender, EventArgs e)
         {
-            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
             dibujo = EstadoDelPrograma.TipoDibujo.Rectangulo;
         }
 
         private void pnlFondo_MouseDown(object sender, MouseEventArgs e)
         {
+            ////
+
+            tmrUpdate.Stop();
+
+
+            //Para el Poligono
+            if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
+            {
+                if (!poligon.isStart)
+                {
+                    poligon.Spawn(pnlFondo.PointToClient(Cursor.Position).X, pnlFondo.PointToClient(Cursor.Position).Y);
+                }
+
+                poligon.MouseDown(e);
+            }
+
+            //Para el Bezier
+            if (herramienta == EstadoDelPrograma.Herramienta.Bezier)
+            {
+                if (!bezier.isStart)
+                {
+                    bezier.Spawn(pnlFondo.PointToClient(Cursor.Position).X, pnlFondo.PointToClient(Cursor.Position).Y);
+                }
+
+                bezier.MouseDown(e);
+            }
+
+
+            
             orginPoint = pnlFondo.PointToClient(Cursor.Position);
             pres = true;
         }
 
+        
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            bezier = new BezierLine(pnlFondo);
+            poligon = new PoligonLine(pnlFondo);
+            
+
+            bezier.ShowAnchors = true;
+            bezier.ShowControls = true;
+
+            poligon.ShowAnchors = true;
+            poligon.ShowControls = true;
+
             canva = pnlFondo.CreateGraphics();
             DoubleBuffered = true;
             tmrUpdate.Start();
@@ -195,7 +281,6 @@ namespace Transformaciones_Graficas
 
         private void btnPoligono_Click(object sender, EventArgs e)
         {
-            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
             dibujo = EstadoDelPrograma.TipoDibujo.Poligono;
         }
 
@@ -241,15 +326,80 @@ namespace Transformaciones_Graficas
             File.WriteAllText($"Logs/{DateTime.Today.Day}-{DateTime.Today.Month}-{DateTime.Today.Year}.txt",txtLog.Text);
         }
 
-        private void ToolStripButton1_Click(object sender, EventArgs e)
+        private int lados;
+        private void txtLadosPoligono_TextChanged(object sender, EventArgs e)
         {
+            if (txtLadosPoligono.TextBox.Text=="")
+                return;
+
+            lados = int.Parse(txtLadosPoligono.TextBox.Text);
+        }
+
+        private void txtAnguloFig_TextChanged(object sender, EventArgs e)
+        {
+            if(txtAnguloFig.TextBox.Text=="")
+                return;
+
+            angulo = float.Parse(txtAnguloFig.TextBox.Text);
+        }
+
+        private void pnlFondo_Paint(object sender, PaintEventArgs e)
+        {
+            if (herramienta == EstadoDelPrograma.Herramienta.Bezier)
+            {
+                bezier.Draw(e);
+            }
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
+            {
+                poligon.Draw(e);
+            }
 
         }
 
-        private int lados;
-        private void toolStripTextBox1_TextChanged(object sender, EventArgs e)
+        private void btnBezier_Click(object sender, EventArgs e)
         {
-            lados = int.Parse(toolStripTextBox1.TextBox.Text);
+            bezier.pathPenColor = btnContorno.BackColor;
+            herramienta = EstadoDelPrograma.Herramienta.Bezier;
+        }
+
+        private void btnMover_Click(object sender, EventArgs e)
+        {
+            herramienta = EstadoDelPrograma.Herramienta.Mover;
+        }
+
+        private void btnDibujar_Click(object sender, EventArgs e)
+        {
+            herramienta = EstadoDelPrograma.Herramienta.Dibujando;
+        }
+
+        private void pnlFondo_MouseEnter(object sender, EventArgs e)
+        {
+            if (herramienta == EstadoDelPrograma.Herramienta.Bezier)
+                bezier.Enter(e);
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
+                poligon.Enter(e);
+        }
+
+        private void pnlFondo_MouseLeave(object sender, EventArgs e)
+        {
+            if (herramienta == EstadoDelPrograma.Herramienta.Bezier)
+                bezier.Leave(e);
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
+                poligon.Leave(e);
+        }
+
+        private void btnRezise_Click(object sender, EventArgs e)
+        {
+            herramienta = EstadoDelPrograma.Herramienta.Redimensionar;
+        }
+
+        private void btnSesgado_Click(object sender, EventArgs e)
+        {
+            poligon.pathPenColor = btnContorno.BackColor;
+            herramienta = EstadoDelPrograma.Herramienta.Sesgado;
         }
     }
 }

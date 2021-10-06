@@ -93,6 +93,16 @@ namespace Transformaciones_Graficas.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap format_shapes {
+            get {
+                object obj = ResourceManager.GetObject("format_shapes", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap geometry {
             get {
                 object obj = ResourceManager.GetObject("geometry", resourceCulture);
@@ -106,6 +116,26 @@ namespace Transformaciones_Graficas.Properties {
         internal static System.Drawing.Bitmap geometry1 {
             get {
                 object obj = ResourceManager.GetObject("geometry1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap journey {
+            get {
+                object obj = ResourceManager.GetObject("journey", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap photo_size_select_small {
+            get {
+                object obj = ResourceManager.GetObject("photo_size_select_small", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

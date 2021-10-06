@@ -52,6 +52,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BezierClass.cs" />
     <Compile Include="CustomControls\CButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -67,6 +68,7 @@
     </Compile>
     <Compile Include="ClasesFiguras\Poligono.cs" />
     <Compile Include="ListaFiguras.cs" />
+    <Compile Include="PoligonClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CustomControls\CButton.resx">
@@ -122,6 +124,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\play_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\journey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\photo_size_select_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\format_shapes.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

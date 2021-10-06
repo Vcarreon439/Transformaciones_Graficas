@@ -9,6 +9,8 @@ namespace Transformaciones_Graficas
 {
     public class ListaFiguras
     {
+        public bool isStart = false;
+
         public List<Figura> enCanva;
 
         public ListaFiguras()
@@ -18,6 +20,7 @@ namespace Transformaciones_Graficas
 
         public void AgregarFigura(Figura figura)
         {
+            isStart = true;
             enCanva.Add(figura);
         }
 

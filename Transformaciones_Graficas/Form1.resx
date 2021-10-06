@@ -147,31 +147,7 @@
         gg==
 </value>
   </data>
-  <data name="btnCirculo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAANlJREFUSEvd
-        lOsNgzAQgzMK2agblI3aDcpGsAFsUmzJ6anlQOQoP9pPsoQO2yG80v/TNE0LPaA+5/ykeKzZVbZ6EL5A
-        YyldEz30KrYPBO5e2ZaQuSm+TaS8iFnV+HCrXrBG7FDdEhimz0CtsMCoundwovUCEbm7wLDzzBGxS7UG
-        hoNnjghdvWoNz3hEqjU80xGp1vjyLRpUa/DBeOaI2KVaA8NzX1OCk4c/NGhS3RKu7ASqtHr1BRjO+9kV
-        IovsLi9wqwjueSYTvYrVwzDUQa/vhMeaxYt/hJRmNGu3DdC34RoAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="btnRectangulo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAGZJREFUSEvt
-        lMEJgFAMQztKu4n7L2FHcAP9gfzLh0D1ICJ9kEMgaW615nu4+za0R8R5R+igyzOaEc61XBVGeEYzw7Rl
-        yr0eoNX0AK2mB2g1vxg4ZviBkmc0eLkILsWKsvSum5cxuwB0ZZblfgjJRAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="btnPoligono.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAJpJREFUSEtj
-        GAWjgEFBQWEDEAtAudQHioqK/4EWvAfifKgQdQHIAhgGWrIfiBWgUtQByBYgWVQPlaYcYLMAhIGWnAdi
-        B6gy8gE2w5Ex0JJ+ICY/EWAzFB0DLbgPxAFQLaQBbAZiwQ9oZgHQ4Ak0CSKgoReAmDaRDDS4ASpNOUAz
-        +AAQ0ySjfQCaWwAVoi4AGkzbwm4UDHXAwAAAy6pvAE3m5yoAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="toolStripButton2.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+  <data name="btnDibujar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
         YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEPSURBVEhLxZTdDcIwEIM7Aq996N8mjMIojMAGsAlsUEbo
@@ -195,6 +171,30 @@
         mDEo5mNjuweFGvjWg2EBhCbpkW78htSHHwRyNdmgAFzPEee2iFkzayy2OLXzT4gr6UdUnlXrullsxxQ+
         kx0g8BTA3aZlButjSTyjODq/WcQcW/B/Je4OQhLvKQDnzN1mp0nnkvAhR8VuMzNrpm1mpjgkoVwB/v8D
         TgDQASA1MVpwzwAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnCirculo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAANlJREFUSEvd
+        lOsNgzAQgzMK2agblI3aDcpGsAFsUmzJ6anlQOQoP9pPsoQO2yG80v/TNE0LPaA+5/ykeKzZVbZ6EL5A
+        YyldEz30KrYPBO5e2ZaQuSm+TaS8iFnV+HCrXrBG7FDdEhimz0CtsMCoundwovUCEbm7wLDzzBGxS7UG
+        hoNnjghdvWoNz3hEqjU80xGp1vjyLRpUa/DBeOaI2KVaA8NzX1OCk4c/NGhS3RKu7ASqtHr1BRjO+9kV
+        IovsLi9wqwjueSYTvYrVwzDUQa/vhMeaxYt/hJRmNGu3DdC34RoAAAAASUVORK5CYII=
+</value>
+  </data>
+  <data name="btnRectangulo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAGZJREFUSEvt
+        lMEJgFAMQztKu4n7L2FHcAP9gfzLh0D1ICJ9kEMgaW615nu4+za0R8R5R+igyzOaEc61XBVGeEYzw7Rl
+        yr0eoNX0AK2mB2g1vxg4ZviBkmc0eLkILsWKsvSum5cxuwB0ZZblfgjJRAAAAABJRU5ErkJggg==
+</value>
+  </data>
+  <data name="btnPoligono.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAJpJREFUSEtj
+        GAWjgEFBQWEDEAtAudQHioqK/4EWvAfifKgQdQHIAhgGWrIfiBWgUtQByBYgWVQPlaYcYLMAhIGWnAdi
+        B6gy8gE2w5Ex0JJ+ICY/EWAzFB0DLbgPxAFQLaQBbAZiwQ9oZgHQ4Ak0CSKgoReAmDaRDDS4ASpNOUAz
+        +AAQ0ySjfQCaWwAVoi4AGkzbwm4UDHXAwAAAy6pvAE3m5yoAAAAASUVORK5CYII=
 </value>
   </data>
   <metadata name="tmrUpdate.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
