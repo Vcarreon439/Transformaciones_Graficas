@@ -16,6 +16,8 @@ namespace Transformaciones_Graficas
     /// </summary>
     public class Figura
     {
+        private bool _isSelected;
+
 
         #region Enum para tipo de figura
         /// <summary>
@@ -188,9 +190,33 @@ namespace Transformaciones_Graficas
             set => cantVertices = value;
         }
 
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (this.IsSelected)
+                    this.ContourPen.Color = Color.Red;
+                else
+                    this.ContourPen.Color = Color.Black;
+                
+                _isSelected = value; 
+            }
+        }
+
         #endregion
 
         #region InternalMethods
+
+
+        public void Mover(int x, int y)
+        {
+            originPoint.X += x;
+            endPoint.X += x;
+            originPoint.Y += y;
+            endPoint.Y += y;
+        }
+
 
         /// <summary>
         /// </summary>

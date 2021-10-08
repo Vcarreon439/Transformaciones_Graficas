@@ -17,9 +17,6 @@ namespace Transformaciones_Graficas
 {
     public partial class Form1 : Form
     {
-        //Lista de figuras
-        private List<Figura> listaFiguras;
-
         #region VariablesDeControl
         //Lista que contendra las figuras a dibujar
         private ListaFiguras lista = new ListaFiguras();
@@ -203,7 +200,10 @@ namespace Transformaciones_Graficas
                 poligon.MouseMove(e);
             }
 
-                
+            if (lista.isStart)
+            {
+                Dibujado.DibujarAnteriores(canva, lista);
+            }
 
             //bezier.MouseMove(e);
 
@@ -267,9 +267,6 @@ namespace Transformaciones_Graficas
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            listaFiguras = new List<Figura>();
-
-
             bezier = new BezierLine(pnlFondo);
             poligon = new PoligonLine(pnlFondo);
             
@@ -337,6 +334,13 @@ namespace Transformaciones_Graficas
         {
             if (txtLadosPoligono.TextBox.Text=="")
                 return;
+
+            if (txtLadosPoligono.TextBox.Text == "0")
+            {
+                txtLadosPoligono.TextBox.Text = "";
+                MessageBox.Show("El valor no puede ser 0");
+                return;
+            }
 
             lados = int.Parse(txtLadosPoligono.TextBox.Text);
         }
@@ -406,6 +410,155 @@ namespace Transformaciones_Graficas
         {
             poligon.pathPenColor = btnContorno.BackColor;
             herramienta = EstadoDelPrograma.Herramienta.Sesgado;
+        }
+
+        private void pnlFondo_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (lista.isStart)
+            {
+                Dibujado.DibujarAnteriores(canva, lista);
+            }
+
+            if (herramienta == EstadoDelPrograma.Herramienta.Mover)
+            {
+                int mouseX;
+                int mouseY;
+                int i;
+                int shapeChosenIndex = -1;
+
+                mouseX = e.X;
+                mouseY = e.Y;
+
+                i = lista.enCanva.Count - 1;
+                bool found = false;
+                bool shiftPressed = false;
+
+                if (Control.ModifierKeys == Keys.Shift)
+                {
+                    shiftPressed = true;
+                }
+
+                while ((i >= 0) && !found)
+                {
+                    Figura s = lista.enCanva[i];
+
+                    if ((s.OriginPoint.X < mouseX) &&
+                        (s.OriginPoint.Y < mouseY) &&
+                        ((s.OriginPoint.X + s.FigSize.Width) > mouseX) &&
+                        ((s.OriginPoint.Y + s.FigSize.Height) > mouseY))
+                    {
+                        found = true;
+                        shapeChosenIndex = i;
+                    }
+                    else
+                    {
+                        i--;
+                    }
+                }
+
+                i = 0;
+                while (i < lista.enCanva.Count)
+                {
+                    if (found && (i == shapeChosenIndex))
+                    {
+                        lista.enCanva[i].IsSelected = true;
+                    }
+                    else
+                    {
+                        if (!shiftPressed)
+                        {
+                            lista.enCanva[i].IsSelected = false;
+                        }
+                    }
+                    i++;
+                }
+
+                pnlFondo.Invalidate();
+
+                
+
+            }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnArriba_Click(object sender, EventArgs e)
+        {
+            if (lista.isStart)
+                Dibujado.DibujarAnteriores(canva, lista);
+
+            if (Control.ModifierKeys == Keys.Shift)
+                MoverSeleccionadas(-8 * 10, 0);
+            else
+                MoverSeleccionadas(0, -8);
+        }
+
+        private void MoverSeleccionadas(int x, int y)
+        {
+            int i = 0;
+            Figura currentShape;
+            while (i < lista.enCanva.Count)
+            {
+                currentShape = lista.enCanva[i];
+                if (currentShape.IsSelected)
+                {
+                    currentShape.Mover(x, y);
+                }
+                i++;
+            }
+            pnlFondo.Invalidate();
+        }
+
+        private void btnAbajo_Click(object sender, EventArgs e)
+        {
+            if (lista.isStart)
+                Dibujado.DibujarAnteriores(canva, lista);
+
+            if (Control.ModifierKeys == Keys.Shift)
+                MoverSeleccionadas(8 * 10, 0);
+            else
+                MoverSeleccionadas(0, 8);
+        }
+
+        private void btnIzquierda_Click(object sender, EventArgs e)
+        {
+            if (lista.isStart)
+                Dibujado.DibujarAnteriores(canva, lista);
+
+            if (Control.ModifierKeys == Keys.Shift)
+                MoverSeleccionadas(-8 * 10, 0);
+            else
+                MoverSeleccionadas(-8, 0);
+        }
+
+        private void btnDerecha_Click(object sender, EventArgs e)
+        {
+            if (lista.isStart)
+                Dibujado.DibujarAnteriores(canva, lista);
+
+            if (Control.ModifierKeys == Keys.Shift)
+                MoverSeleccionadas(8 * 10, 0);
+            else
+                MoverSeleccionadas(8, 0);
+        }
+
+        private void txtLadosPoligono_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtAnguloFig_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
         }
     }
 }
