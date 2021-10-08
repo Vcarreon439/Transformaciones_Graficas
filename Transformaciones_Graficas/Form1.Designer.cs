@@ -1,7 +1,7 @@
 ﻿
 namespace Transformaciones_Graficas
 {
-    partial class Form1
+    partial class frmPrincipal
     {
         /// <summary>
         /// Variable del diseñador necesaria.
@@ -29,8 +29,7 @@ namespace Transformaciones_Graficas
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPrincipal));
             this.pnlFondo = new System.Windows.Forms.Panel();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.btnMover = new System.Windows.Forms.ToolStripButton();
@@ -54,7 +53,6 @@ namespace Transformaciones_Graficas
             this.btnExportLog = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.icnPctShHi2 = new FontAwesome.Sharp.IconPictureBox();
-            this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
             this.tabMover = new System.Windows.Forms.TabPage();
             this.btnArriba = new System.Windows.Forms.Button();
             this.btnIzquierda = new System.Windows.Forms.Button();
@@ -123,7 +121,6 @@ namespace Transformaciones_Graficas
             this.btnBezier.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnBezier.Name = "btnBezier";
             this.btnBezier.Size = new System.Drawing.Size(30, 20);
-            this.btnBezier.Text = "toolStripButton3";
             this.btnBezier.Click += new System.EventHandler(this.btnBezier_Click);
             // 
             // btnSesgado
@@ -135,7 +132,8 @@ namespace Transformaciones_Graficas
             this.btnSesgado.Size = new System.Drawing.Size(30, 20);
             this.btnSesgado.Text = "toolStripButton1";
             this.btnSesgado.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            this.btnSesgado.ToolTipText = "Modificar los puntos de las figuras";
+            this.btnSesgado.ToolTipText = "Herramienta de sesgado (Controles invertidos de sesgado), es decir con click dere" +
+    "cho agregas puntos y con click izquierdo los mueves\r\n";
             this.btnSesgado.Click += new System.EventHandler(this.btnSesgado_Click);
             // 
             // btnRezise
@@ -167,7 +165,7 @@ namespace Transformaciones_Graficas
             // anguloToolStripMenuItem
             // 
             this.anguloToolStripMenuItem.Name = "anguloToolStripMenuItem";
-            this.anguloToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.anguloToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.anguloToolStripMenuItem.Text = "Angulo";
             // 
             // txtAnguloFig
@@ -196,7 +194,7 @@ namespace Transformaciones_Graficas
             // 
             this.btnCirculo.Image = ((System.Drawing.Image)(resources.GetObject("btnCirculo.Image")));
             this.btnCirculo.Name = "btnCirculo";
-            this.btnCirculo.Size = new System.Drawing.Size(134, 22);
+            this.btnCirculo.Size = new System.Drawing.Size(180, 22);
             this.btnCirculo.Text = "Elipse";
             this.btnCirculo.Click += new System.EventHandler(this.btnCirculo_Click);
             // 
@@ -204,7 +202,7 @@ namespace Transformaciones_Graficas
             // 
             this.btnRectangulo.Image = ((System.Drawing.Image)(resources.GetObject("btnRectangulo.Image")));
             this.btnRectangulo.Name = "btnRectangulo";
-            this.btnRectangulo.Size = new System.Drawing.Size(134, 22);
+            this.btnRectangulo.Size = new System.Drawing.Size(180, 22);
             this.btnRectangulo.Text = "Rectangulo";
             this.btnRectangulo.Click += new System.EventHandler(this.btnRectangulo_Click);
             // 
@@ -222,7 +220,7 @@ namespace Transformaciones_Graficas
             // ladosToolStripMenuItem
             // 
             this.ladosToolStripMenuItem.Name = "ladosToolStripMenuItem";
-            this.ladosToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.ladosToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.ladosToolStripMenuItem.Text = "Lados";
             // 
             // txtLadosPoligono
@@ -330,10 +328,6 @@ namespace Transformaciones_Graficas
             this.icnPctShHi2.TabStop = false;
             this.icnPctShHi2.Click += new System.EventHandler(this.icnPctShHi2_Click);
             // 
-            // tmrUpdate
-            // 
-            this.tmrUpdate.Interval = 1;
-            // 
             // tabMover
             // 
             this.tabMover.Controls.Add(this.btnAbajo);
@@ -387,7 +381,7 @@ namespace Transformaciones_Graficas
             this.btnAbajo.UseVisualStyleBackColor = true;
             this.btnAbajo.Click += new System.EventHandler(this.btnAbajo_Click);
             // 
-            // Form1
+            // frmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -395,8 +389,9 @@ namespace Transformaciones_Graficas
             this.ClientSize = new System.Drawing.Size(1044, 610);
             this.Controls.Add(this.pnlFondo);
             this.DoubleBuffered = true;
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "frmPrincipal";
+            this.Text = "Transformaciones Graficas";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.pnlFondo.ResumeLayout(false);
@@ -425,7 +420,6 @@ namespace Transformaciones_Graficas
         private System.Windows.Forms.ToolStripMenuItem btnCirculo;
         private System.Windows.Forms.ToolStripMenuItem btnRectangulo;
         private System.Windows.Forms.ToolStripMenuItem btnPoligono;
-        private System.Windows.Forms.Timer tmrUpdate;
         private System.Windows.Forms.ToolStripButton btnContorno;
         private System.Windows.Forms.ToolStripButton btnRelleno;
         private System.Windows.Forms.TextBox txtLog;

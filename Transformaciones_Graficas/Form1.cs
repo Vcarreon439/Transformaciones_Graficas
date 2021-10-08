@@ -15,7 +15,7 @@ using Transformaciones_Graficas.ClasesDibujo;
 
 namespace Transformaciones_Graficas
 {
-    public partial class Form1 : Form
+    public partial class frmPrincipal : Form
     {
         #region VariablesDeControl
         //Lista que contendra las figuras a dibujar
@@ -230,11 +230,6 @@ namespace Transformaciones_Graficas
 
         private void pnlFondo_MouseDown(object sender, MouseEventArgs e)
         {
-            ////
-
-            tmrUpdate.Stop();
-
-
             //Para el Poligono
             if (herramienta == EstadoDelPrograma.Herramienta.Sesgado)
             {
@@ -279,7 +274,6 @@ namespace Transformaciones_Graficas
 
             canva = pnlFondo.CreateGraphics();
             DoubleBuffered = true;
-            tmrUpdate.Start();
         }
 
         private void btnPoligono_Click(object sender, EventArgs e)
@@ -314,7 +308,7 @@ namespace Transformaciones_Graficas
 
         #endregion
 
-        public Form1()
+        public frmPrincipal()
         {
             InitializeComponent();
         }
