@@ -353,7 +353,7 @@ namespace Transformaciones_Graficas
             // 
             // btnIzquierda
             // 
-            this.btnIzquierda.Location = new System.Drawing.Point(27, 56);
+            this.btnIzquierda.Location = new System.Drawing.Point(15, 56);
             this.btnIzquierda.Name = "btnIzquierda";
             this.btnIzquierda.Size = new System.Drawing.Size(67, 29);
             this.btnIzquierda.TabIndex = 1;
@@ -363,7 +363,7 @@ namespace Transformaciones_Graficas
             // 
             // btnDerecha
             // 
-            this.btnDerecha.Location = new System.Drawing.Point(100, 56);
+            this.btnDerecha.Location = new System.Drawing.Point(109, 56);
             this.btnDerecha.Name = "btnDerecha";
             this.btnDerecha.Size = new System.Drawing.Size(67, 29);
             this.btnDerecha.TabIndex = 2;
