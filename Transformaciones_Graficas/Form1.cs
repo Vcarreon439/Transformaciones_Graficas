@@ -17,6 +17,9 @@ namespace Transformaciones_Graficas
 {
     public partial class Form1 : Form
     {
+        //Lista de figuras
+        private List<Figura> listaFiguras;
+
         #region VariablesDeControl
         //Lista que contendra las figuras a dibujar
         private ListaFiguras lista = new ListaFiguras();
@@ -264,6 +267,9 @@ namespace Transformaciones_Graficas
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            listaFiguras = new List<Figura>();
+
+
             bezier = new BezierLine(pnlFondo);
             poligon = new PoligonLine(pnlFondo);
             
