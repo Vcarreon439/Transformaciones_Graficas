@@ -554,5 +554,10 @@ namespace Transformaciones_Graficas
                 e.Handled = true;
             }
         }
+
+        private void toolStripButton1_Click_1(object sender, EventArgs e)
+        {
+            MessageBox.Show("192310436 Carreon Pulido Victor Hugo \n 192310177 Mejia Rubio Andrea Evelyn","Creadores");
+        }
     }
 }

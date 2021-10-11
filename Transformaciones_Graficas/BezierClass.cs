@@ -1,9 +1,4 @@
-﻿﻿// <copyright file="BezierClass.cs" company="Maxx53">
-// Copyright (c) 2015 All Rights Reserved
-// </copyright>
-// <author>Maxx53</author>
-// <date>26/03/2015</date>
-// <summary>Class for drawing cubic bezier curve with mouse, for use in WinForms.</summary>
+﻿// <summary>Clase tomada del repositorio de Maxx53</summary>
 
 using System;
 using System.Collections.Generic;
@@ -11,7 +6,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using Transformaciones_Graficas;
-
 
  namespace BezierControl
 {

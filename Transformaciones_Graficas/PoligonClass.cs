@@ -315,11 +315,8 @@ namespace Transformaciones_Graficas
 
         private void SetAnchorPos(Point point)
         {
-            //if (!this.isStart)
-            //{
-            //    MessageBox.Show("");
-            //    return;
-            //}
+            //if (this.polyNum<0)
+                //return;
 
 
             var deltaX = this[toMove].Coord.X - point.X;
